@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+	<link rel="stylesheet" type="text/css" href="app.css">
+	<script type="text/javascript" src="jquery-2.0.2.min.js"></script>
+	<script type="text/javascript" src="app.js"></script>
+</head>
+<body>
+
+<div class="code">
+
+<!-- html file -->
+<label>index.html</label>
+<textarea id="html">
+<body onload="init()">
+    <div class="hello_div">Hello World!!!</div>
+</body>
+</textarea>
+
+<!-- js file -->
+<label>app.js</label>
+<textarea id="js">
+function init(){
+    alert('hello, user!');
+}
+</textarea>
+
+<!-- css file -->
+<label>app.css</label>
+<textarea id="css">
+.hello_div{
+    color: red;
+}
+</textarea>
+
+</div>
+<div class="preview"></div>
+
+</body>
+</html>
