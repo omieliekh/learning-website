@@ -1,0 +1,5 @@
+<div class="row" ng-repeat="row in skills">
+	<div ng-repeat="skill in row" class="{{skill.cls}}">
+		<div class="alert alert-info text-center skill" ng-click="goToLesson(skill.url)"><b>{{skill.text}}</b></div>
+	</div>
+</div>
