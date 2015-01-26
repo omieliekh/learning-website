@@ -17,11 +17,107 @@ angular.module( 'ngBoilerplate.lesson', [
 })
 
 .controller( 'LessonCtrl', function LessonCtrl( $scope, $state ) {
-	$scope.aceLoaded = function(editor) {
-		editor.setOptions({
-			fontSize: "16px"
-		});
+	$scope.methods = {
+		aceLoaded: function(editor) {
+			editor.setOptions({
+				fontSize: "14px"
+			});
+		},
+
+		aceChanged: function(){
+			if(!$scope.$$phase) {
+				$scope.$apply();
+			}
+		},
+
+		resetAllTasks: function(){
+			for (i=0; i<tasks.length; i++){
+				tasks[i].status = 'open';
+			}
+
+			$scope.goToNextTask();
+		},
+
+		goToNextTask: function(){
+			var 
+				i,
+				currentTaskIsFound = false,
+				tasks = $scope.tasks
+			;
+
+			for (i=0; i<tasks.length; i++){
+				// console.log('tasks['+i+']: ', JSON.stringify(tasks[i]) );
+
+				if (tasks[i].status == 'inprogress'){
+					currentTaskIsFound = true;
+					tasks[i].status = 'closed';
+					
+					if (tasks[i+1]){
+						tasks[i+1].status = 'inprogress';
+					}
+
+					break;
+				}
+			}
+
+			if (!currentTaskIsFound && tasks[0] && tasks[0].status == 'open'){
+				tasks[0].status = 'inprogress';
+			} else {
+				//console.warn('goToNextTask. No valid tasks found');
+			}
+
+			if(!$scope.$$phase) {
+				$scope.$apply();
+			}
+		},
+
+		activateFile: function(fileObj){
+			var i;
+
+			for (i=0; i<$scope.files.length; i++){
+				if (fileObj == $scope.files[i]){
+					$scope.files[i].active = true;
+					$scope.activeFile = i;
+				} else {
+					$scope.files[i].active = false;
+				}				
+			}
+		},
+
+		addFile: function(){
+			var 
+				filename = 'file'+( parseInt(Math.random()*100) ),
+				rand = Math.random(),
+
+				fileExt = (rand < 0.33) ? 'html' : ( (rand > 0.66) ? 'js' : 'css' ),
+
+				fullFilename = filename+'.'+fileExt
+			;
+
+			$scope.files.push({
+				name: fullFilename,
+				code: '// '+fullFilename+' content'
+			});
+		}
 	};
+
+	$scope.activeFile = 0;
+
+	$scope.$applyAsync = function(callback){
+		callback();
+	};
+
+	$scope.files = [
+		{
+			active: true,
+			name: 'index.html',
+			code: '//test'
+		},
+		{
+			name: 'script.js',
+			code: '//hello world'
+		}
+	];
 
 	$scope.tasks = [
 		{
@@ -56,55 +152,14 @@ angular.module( 'ngBoilerplate.lesson', [
 		}
 	];
 
-	/*$scope.resetAllTasks = function(){
-		for (i=0; i<tasks.length; i++){
-			tasks[i].status = 'open';
-		}
-
-		$scope.goToNextTask();
-	}*/
-
-	$scope.goToNextTask = function(){
-		var 
-			i,
-			currentTaskIsFound = false,
-			tasks = $scope.tasks
-		;
-
-		for (i=0; i<tasks.length; i++){
-			console.log('tasks['+i+']: ', JSON.stringify(tasks[i]) );
-
-			if (tasks[i].status == 'inprogress'){
-				currentTaskIsFound = true;
-				tasks[i].status = 'closed';
-				
-				if (tasks[i+1]){
-					tasks[i+1].status = 'inprogress';
-				}
-
-				break;
-			}
-		}
-
-		console.log(tasks);
-
-		if (!currentTaskIsFound && tasks[0] && tasks[0].status == 'open'){
-			tasks[0].status = 'inprogress';
-		} else {
-			console.warn('goToNextTask. No valid tasks found');
-		}
-
-		$scope.$apply();
-	};
-
-
 	setInterval(function(){
-		$scope.goToNextTask();
-	}, 1500);
+		$scope.methods.goToNextTask();
 
-	/*setTimeout(function(){
-		$scope.goToNextTask();
-	}, 4000);*/
+		console.log('activeFile: ', $scope.activeFile);
+		console.log( JSON.stringify($scope.files, null, "\t") );
+	}, 4000);
+
+	
 })
 
 ;

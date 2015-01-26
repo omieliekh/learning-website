@@ -12,31 +12,25 @@
 			{{ task.status == 'closed' ? ' fa-check-circle-o ' : '' }}
 		"></i> <b>{{task.preTitle}}. </b>{{task.title}}
 	</div>
-
-	<!--div class="alert alert-dismissable alert-warning">
-		<i class="fa fa-play-circle-o fa-2x"></i> <b>Level 2.</b> Now create something more complicated
-	</div>
-	<div class="alert alert-dismissable alert-info">
-		<i class="fa fa-circle-o fa-2x"></i> <b>Level 3.</b> Almost finished. Take few more minutes...
-	</div>
-	<div class="alert alert-dismissable alert-info">
-		<i class="fa fa-circle-o fa-2x"></i> <b>Level 4.</b> Final steps. Finish your job
-	</div-->
 </div>
 
 <div class="container main-content col-lg-10 col-md-9 col-sm-12">
 	<div class="well bs-component">
+		<ul class="nav nav-tabs">
+			<li ng-repeat="file in files" class="{{ file.active ? 'active' : '' }}" ng-click="methods.activateFile(file)"><a>{{file.name}}</a></li>
+
+			<li ng-click="methods.addFile()"><a>+</a></li>
+		</ul>
 		<div ui-ace="{
 			fontsize : '16px',
 			useWrapMode : true,
 			theme:'eclipse',
 			mode: 'javascript',
 			showGutter: true,
-			onLoad: aceLoaded
-		}"></div>	
+			onLoad: methods.aceLoaded,
+			onChange: methods.aceChanged
+		}" ng-model="files[activeFile].code"></div>
 	</div>
-</div>
-<div class="container main-content col-lg-10 col-md-9 col-sm-12">
 	<div class="well bs-component">
 		TEST PAGE HERE
 	</div>
