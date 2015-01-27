@@ -17,7 +17,11 @@
 <div class="container main-content col-lg-10 col-md-9 col-sm-12">
 	<div class="well bs-component">
 		<ul class="nav nav-tabs">
-			<li ng-repeat="file in files" class="{{ file.active ? 'active' : '' }}" ng-click="methods.activateFile(file)"><a>{{file.name}}</a></li>
+			<li ng-repeat="file in files" class="{{ file == files[activeFile] ? 'active' : '' }}" ng-click="methods.activateFile(file)"><a>{{file.name}}
+			<i class="fa fa-fw fa-times close-file" ng-click="methods.deleteFile(file)" style="
+				{{ files.length <= 1 ? 'display:none;' : '' }}
+			"></i>
+			</a></li>
 
 			<li ng-click="methods.addFile()"><a>+</a></li>
 		</ul>

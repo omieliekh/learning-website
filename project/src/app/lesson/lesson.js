@@ -76,10 +76,9 @@ angular.module( 'ngBoilerplate.lesson', [
 
 			for (i=0; i<$scope.files.length; i++){
 				if (fileObj == $scope.files[i]){
-					$scope.files[i].active = true;
 					$scope.activeFile = i;
 				} else {
-					$scope.files[i].active = false;
+					
 				}				
 			}
 		},
@@ -98,6 +97,34 @@ angular.module( 'ngBoilerplate.lesson', [
 				name: fullFilename,
 				code: '// '+fullFilename+' content'
 			});
+		},
+
+		deleteFile: function(fileObj){
+			var i;
+
+			if ($scope.files.length <= 1){
+				return;
+			}
+
+			for (i=0; i<$scope.files.length; i++){
+				if (fileObj == $scope.files[i]){
+					/*if (i < $scope.activeFile) {
+						$scope.activeFile++;
+					}*/
+
+					$scope.files.splice(i, 1);
+
+					$scope.activeFile = Math.min($scope.activeFile, $scope.files.length-1);
+
+					break;
+				}				
+			}
+
+			// if(!$scope.$$phase) {
+			// 	$scope.$apply();
+			// }
+
+			console.log('deleteFile. $scope.files: ', $scope.files);
 		}
 	};
 
@@ -109,7 +136,6 @@ angular.module( 'ngBoilerplate.lesson', [
 
 	$scope.files = [
 		{
-			active: true,
 			name: 'index.html',
 			code: '//test'
 		},
@@ -152,12 +178,19 @@ angular.module( 'ngBoilerplate.lesson', [
 		}
 	];
 
-	setInterval(function(){
+	var myIntervalCounter = 0;
+	var myInterval = setInterval(function(){
 		$scope.methods.goToNextTask();
 
-		console.log('activeFile: ', $scope.activeFile);
-		console.log( JSON.stringify($scope.files, null, "\t") );
-	}, 4000);
+		// console.log('activeFile: ', $scope.activeFile);
+		// console.log( JSON.stringify($scope.files, null, "\t") );
+
+		myIntervalCounter++;
+
+		if (myIntervalCounter >= 7){
+			clearInterval(myInterval);
+		}
+	}, 200);
 
 	
 })
