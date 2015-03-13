@@ -1,6 +1,7 @@
 angular.module( 'ngBoilerplate.lesson', [
 	'ui.router',
-	'ui.ace'
+	'ui.ace',
+	'ngBoilerplate.services'
 ])
 
 .config(function config( $stateProvider ) {
@@ -16,7 +17,14 @@ angular.module( 'ngBoilerplate.lesson', [
 	});
 })
 
-.controller( 'LessonCtrl', function LessonCtrl( $scope, $state ) {
+.controller( 'LessonCtrl', function LessonCtrl( $scope, $state, localStorageFactory ) {
+	console.log('localStorageFactory: ', localStorageFactory);
+
+	// just a placeholder to prevent js-error in ace editor
+	$scope.$applyAsync = function(callback){
+		callback();
+	};
+
 	$scope.methods = {
 		aceLoaded: function(editor) {
 			editor.setOptions({
@@ -88,14 +96,16 @@ angular.module( 'ngBoilerplate.lesson', [
 				filename = 'file'+( parseInt(Math.random()*100) ),
 				rand = Math.random(),
 
-				fileExt = (rand < 0.33) ? 'html' : ( (rand > 0.66) ? 'js' : 'css' ),
+				// fileExt = (rand < 0.33) ? 'html' : ( (rand > 0.66) ? 'js' : 'css' ),
 
-				fullFilename = filename+'.'+fileExt
+				// fullFilename = filename+'.'+fileExt
+
+				fullFilename = 'untitled'
 			;
 
 			$scope.files.push({
 				name: fullFilename,
-				code: '// '+fullFilename+' content'
+				code: '' /*'// '+fullFilename+' content'*/
 			});
 		},
 
@@ -119,20 +129,14 @@ angular.module( 'ngBoilerplate.lesson', [
 					break;
 				}				
 			}
+		},
 
-			// if(!$scope.$$phase) {
-			// 	$scope.$apply();
-			// }
-
-			console.log('deleteFile. $scope.files: ', $scope.files);
+		switchEditMode: function(fileObj){
+			fileObj.editMode = !fileObj.editMode;
 		}
 	};
 
 	$scope.activeFile = 0;
-
-	$scope.$applyAsync = function(callback){
-		callback();
-	};
 
 	$scope.files = [
 		{

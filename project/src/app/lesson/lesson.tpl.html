@@ -17,8 +17,18 @@
 <div class="container main-content col-lg-10 col-md-9 col-sm-12">
 	<div class="well bs-component">
 		<ul class="nav nav-tabs">
-			<li ng-repeat="file in files" class="{{ file == files[activeFile] ? 'active' : '' }}" ng-click="methods.activateFile(file)"><a>{{file.name}}
-			<i class="fa fa-fw fa-times close-file" ng-click="methods.deleteFile(file)" style="
+			<li ng-repeat="file in files" class="{{ file == files[activeFile] ? 'active' : '' }}" ng-click="methods.activateFile(file)"><a>
+
+			{{file.editMode ? '' : file.name}}
+
+			<input size="{{file.name.length || 1}}" ng-model="file.name" ng-keyup="$event.keyCode == 13 && methods.switchEditMode(file)" style="
+				{{ file.editMode ? '' : 'display:none;' }}
+			">
+
+			<i class="fa fa-fw fa-edit" ng-click="methods.switchEditMode(file)" style="
+				{{ file == files[activeFile] ? '' : 'display:none;' }}
+			"></i>
+			<i class="fa fa-fw fa-times" ng-click="methods.deleteFile(file)" style="
 				{{ files.length <= 1 ? 'display:none;' : '' }}
 			"></i>
 			</a></li>
@@ -26,7 +36,6 @@
 			<li ng-click="methods.addFile()"><a>+</a></li>
 		</ul>
 		<div ui-ace="{
-			fontsize : '16px',
 			useWrapMode : true,
 			theme:'eclipse',
 			mode: 'javascript',
@@ -37,5 +46,8 @@
 	</div>
 	<div class="well bs-component">
 		TEST PAGE HERE
+	</div>
+	<div class="well bs-component">
+		CLI output here
 	</div>
 </div>
