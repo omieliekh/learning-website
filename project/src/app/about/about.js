@@ -1,10 +1,10 @@
 angular.module( 'ngBoilerplate.about', [
   'ui.router',
-  'placeholders',
+  // 'placeholders',
   'ui.bootstrap'
 ])
 
-.config(function config( $stateProvider ) {
+/*.config(function config( $stateProvider ) {
   $stateProvider.state( 'about', {
     url: '/about',
     views: {
@@ -25,5 +25,5 @@ angular.module( 'ngBoilerplate.about', [
     "but wait! A third!"
   ];
 })
-
+*/
 ;

@@ -1,4 +1,4 @@
-angular.module('ngBoilerplate.services')
+angular.module('ngBoilerplate')
 
 .factory('localStorage', function(){
 	return {
@@ -9,5 +9,4 @@ angular.module('ngBoilerplate.services')
 			localStorage.setItem( id, JSON.stringify(obj) );
 		}
 	};
-
 });

@@ -1,7 +1,6 @@
 angular.module( 'ngBoilerplate.lesson', [
 	'ui.router',
-	'ui.ace',
-	'ngBoilerplate.services'
+	'ui.ace'
 ])
 
 .config(function config( $stateProvider ) {
@@ -17,8 +16,8 @@ angular.module( 'ngBoilerplate.lesson', [
 	});
 })
 
-.controller( 'LessonCtrl', function LessonCtrl( $scope, $state, localStorageFactory ) {
-	console.log('localStorageFactory: ', localStorageFactory);
+.controller( 'LessonCtrl', function LessonCtrl( $scope, $state, localStorage ) {
+	console.log('localStorage: ', localStorage);
 
 	// just a placeholder to prevent js-error in ace editor
 	$scope.$applyAsync = function(callback){
