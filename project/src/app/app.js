@@ -5,6 +5,7 @@ angular.module( 'ngBoilerplate', [
   // 'ngBoilerplate.about',
   'ngBoilerplate.skills',
   'ngBoilerplate.lesson',
+   'testAutocode',
   'ui.router'
 ])
 

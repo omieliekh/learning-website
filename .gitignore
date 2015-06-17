@@ -6,3 +6,4 @@ project/node_modules/
 project/vendor/
 trash/
 /docs/~$User Stories.xlsx
+npm-debug.log
