@@ -8,7 +8,7 @@
 		theme:'eclipse',
 		mode: 'javascript',
 		showGutter: true,
-		onLoad: methods.aceLoaded,
-		onChange: methods.aceChanged
+		onLoad: aceLoaded,
+		onChange: aceChanged
 	}" ng-model="codeInside" ng-keyup="captureEvent($event)"></div>
 </div>
