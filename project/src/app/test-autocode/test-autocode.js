@@ -34,63 +34,77 @@ angular.module( 'testAutocode', [
 })
 
 .controller( 'TestAutocodeCtrl', ['$scope', 'TestAutocodeService', function ( $scope, TestAutocodeService ) {
+	var editor, trace;
+
 	$scope.codeInside = "function hello() {\n\n}";
 
+	$scope.recording = false;
+
 	$scope.startRecord = function(){
-		TestAutocodeService.startRecord();
+		$scope.recording = true;
+		trace = [];
+		recordTrace( null, editor.getValue() );
+		// TestAutocodeService.startRecord();
 	};
 
 	$scope.stopRecord = function(){
-		TestAutocodeService.stopRecord();
+		$scope.recording = false;
+		// TestAutocodeService.stopRecord();
 	};
 
+	var recordTrace = function(info, text){
+		trace = trace || [];
 
-	// $scope.captureEvent = function(e){
-	// 	var value = String.fromCharCode(e.keyCode);
-	// 	console.log('e: ', e, ' , value: ', value);
-	// };
+		trace.push({
+			info: info,
+			text: text
+		});
+	};
 
-	$scope.aceLoaded = function(editor) {
+	$scope.aceLoaded = function(_editor) {
 		// _editor.setReadOnly(true);
-		console.log('aceLoaded. editor: ', editor);
 
-		window.myEditor = editor;
+		editor = _editor;
+		recordTrace( null, editor.getValue() );
 
-		// myEditor.commands.exec("selectall", myEditor)
-
-		// editor.commands.addCommand({
-		// 	name: "inserttext",
-		// 	exec: function(editor, args, request) {
-		// 	    var lang = require("ace/lib/lang");
-
-		// 	    editor.insert(lang.stringRepeat(args.text || "", args.times || 1));
-
-		// 	    if (autocompleting) {
-
-		// 	        var command = editor.commands.commands['autocomplete'];
-
-		// 	        command.exec(editor);
-		// 	    }
-		// 	}
-		// });
-		// editor.commands.addCommand({
-		// 	name: "triggerAutocomplete",
-		// 	bindKey: {
-		// 	    win: "Ctrl-Space",
-		// 	    mac: "Ctrl-Space",
-		// 	    sender: "editor"
-		// 	},
-		// 	exec: function(editor, args, request) {
-		// 	    setTimeout(function() {
-		// 	        generateAdvice(AdviceOn.COMMAND);
-		// 	    }, 0);
-		// 	}
-		// });
+		window.myEditor = _editor;
 	};
 
 	$scope.aceChanged = function(e) {
-		console.log('aceChanged. e[0]: ', e[0]);
+		var 
+			range = e[0].data.range,
+			text = editor.session.getTextRange(e[0].data.range)
+		;
+
+		if ($scope.recording){
+			recordTrace(e[0].data, text);
+		}
 	};
+
+	$scope.showTrace = function() {
+		console.log('trace: ', trace);
+		window.myTrace = trace;
+	}
+
+	$scope.playTrace = function() {
+		editor.setValue('');
+
+		var i;
+
+		for(i=0; i<trace.length; i++){
+			setTimeout(function(){
+				var info = trace[this.i].info || { action: 'insertText', range: {start: {row: 0, column: 0}} }
+
+				if ( info.action == 'insertText'){
+					// console.log(trace[this.i].info.range.start.row, trace[this.i].info.range.start.column);
+					editor.navigateTo(info.range.start.row, info.range.start.column);
+					editor.insert(trace[this.i].text);
+				} else if (info && info.action == 'removeText') {
+					editor.removeSelectionMarker(info.range);
+				}
+			}.bind({i: i}), i*70);
+		}
+	}
 
 
 
