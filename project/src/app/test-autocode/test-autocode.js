@@ -36,7 +36,7 @@ angular.module('testAutocode', [
     .controller('TestAutocodeCtrl', ['$scope', 'TestAutocodeService', function ($scope, TestAutocodeService) {
         var editor, trace;
 
-        $scope.leftCode = "Hello 3\nHello again\nHello 4";
+        $scope.leftCode = "Hello 3\nHello hello\nHello 4";
         $scope.rightCode = "Hello 1\nHello 2\nhi hi";
         $scope.diffResult = [];
 
@@ -44,20 +44,9 @@ angular.module('testAutocode', [
             var one = 'beep boop';
             var other = 'beep boob blah';
 
-            var diff = JsDiff.diffChars($scope.leftCode, $scope.rightCode);
+            var diff = JsDiff.diffWords($scope.leftCode, $scope.rightCode);
 
             $scope.diffResult = diff;
-
-            //console.log( 'diff: ', JSON.stringify(diff, null, "\t") );
-            //
-            //var res = '';
-            //
-            //diff.forEach(function(part){
-            //    var color = part.added ? 'green' :
-            //        part.removed ? 'red' : 'grey';
-            //
-            //    res += '<span style="color:'+color+';">' + part.value + '</span>';
-            //});
         };
 
         $scope.codeInside = "function hello() {\n\n}";
