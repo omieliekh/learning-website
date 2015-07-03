@@ -7,7 +7,8 @@
     "bootstrap": "^3.1",
     "angular-bootstrap": "^0.10.0",
     "angular-ui-router": "^0.2",
-    "angular-ui-ace": "bower"
+    "angular-ui-ace": "bower",
+    "jsdiff": "~1.4.0"
   },
   "dependencies": {}
 }

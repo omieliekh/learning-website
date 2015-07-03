@@ -13,7 +13,7 @@
     "url": "git@github.com:ngbp/ngbp.git"
   },
   "scripts": {
-    "preinstall": "npm install -g bower grunt-cli karma-cli",
+    "back-preinstall": "npm install -g bower grunt-cli karma-cli",
     "postinstall": "bower install"
   },
   "dependencies": {},

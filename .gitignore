@@ -7,3 +7,4 @@ project/vendor/
 trash/
 /docs/~$User Stories.xlsx
 npm-debug.log
+.idea/
